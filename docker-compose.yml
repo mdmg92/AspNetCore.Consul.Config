@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  consul:
+    image: consul
+    container_name: consul
+    ports:
+      - 8500:8500
+    networks:
+      - dotnet
+    volumes:
+      - consul:/consul/data
+
+  webapi:
+    container_name: webapi
+    build: ./src/AspNetCore.Consul.Config/
+    ports:
+      - 8080:5000
+    networks:
+      - dotnet
+
+networks:
+  dotnet:
+    name: dotnet-network
+
+volumes:
+  consul:
+    driver: local
